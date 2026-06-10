@@ -1,0 +1,183 @@
+.leaderboard-empty {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: var(--color-accent);
+}
+
+.leaderboard-empty svg {
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+  opacity: 0.6;
+}
+
+.podium {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.podium-place {
+  background: var(--color-white);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1rem;
+  text-align: center;
+  flex: 1;
+  max-width: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  transition: transform var(--transition);
+}
+
+.podium-place:hover {
+  transform: translateY(-4px);
+}
+
+.podium-1 {
+  background: linear-gradient(180deg, var(--color-primary-light) 0%, var(--color-white) 100%);
+  border-color: var(--color-primary);
+  padding-bottom: 2rem;
+  order: 2;
+}
+
+.podium-2 {
+  order: 1;
+  padding-bottom: 1.5rem;
+}
+
+.podium-3 {
+  order: 3;
+  padding-bottom: 1rem;
+}
+
+.podium-medal {
+  color: var(--color-primary-dark);
+  margin-bottom: 0.25rem;
+}
+
+.podium-rank {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  text-transform: uppercase;
+}
+
+.podium-place strong {
+  color: var(--color-accent-dark);
+  font-size: 0.95rem;
+}
+
+.podium-dept {
+  font-size: 0.8rem;
+  color: var(--color-accent);
+}
+
+.podium-score {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+  margin-top: 0.25rem;
+}
+
+.leaderboard-table-wrap {
+  overflow-x: auto;
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.leaderboard-table th {
+  color: var(--color-accent-dark);
+  font-weight: 700;
+  background: var(--color-bg-warm);
+  font-size: 0.85rem;
+}
+
+.leaderboard-table th svg {
+  vertical-align: middle;
+  margin-right: 0.2rem;
+}
+
+.leaderboard-table tr.top-3 {
+  background: var(--color-primary-light);
+}
+
+.leaderboard-table tr.is-me {
+  background: rgba(242, 179, 52, 0.2);
+  font-weight: 600;
+}
+
+.rank-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--color-bg-warm);
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--color-accent-dark);
+}
+
+.top-3 .rank-badge {
+  background: var(--color-primary);
+  color: var(--color-accent-dark);
+}
+
+.you-tag {
+  display: inline-block;
+  margin-left: 0.4rem;
+  background: var(--color-primary);
+  color: var(--color-accent-dark);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.my-rank {
+  margin-top: 1.5rem;
+}
+
+.my-rank h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+@media (max-width: 640px) {
+  .podium {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .podium-place {
+    max-width: 100%;
+    width: 100%;
+    order: unset !important;
+    padding-bottom: 1.25rem !important;
+  }
+
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding: 0.6rem 0.5rem;
+    font-size: 0.8rem;
+  }
+}

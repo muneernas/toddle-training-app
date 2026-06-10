@@ -1,0 +1,166 @@
+.lesson-page {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.lesson-content {
+  flex: 1;
+}
+
+.lesson-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 2px solid var(--color-primary-light);
+}
+
+.lesson-header-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.lesson-header-icon {
+  width: 52px;
+  height: 52px;
+  background: var(--color-primary-light);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary-dark);
+  flex-shrink: 0;
+}
+
+.lesson-header h2 {
+  margin: 0.25rem 0 0;
+  font-size: 1.4rem;
+}
+
+.lesson-badge {
+  background: var(--color-accent-dark);
+  color: var(--color-primary);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.lesson-body p {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+}
+
+.key-points {
+  background: var(--color-primary-light);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  border: 1px solid rgba(242, 179, 52, 0.3);
+}
+
+.key-points-toggle {
+  background: none;
+  border: none;
+  font-weight: 700;
+  color: var(--color-accent-dark);
+  font-size: 1rem;
+  padding: 0;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  cursor: pointer;
+}
+
+.key-points-toggle:hover {
+  color: var(--color-primary-dark);
+}
+
+.key-points ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.key-points li {
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.key-points li::before {
+  content: '✦';
+  position: absolute;
+  left: 0;
+  color: var(--color-primary-dark);
+  font-size: 0.8rem;
+}
+
+.callout {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  align-items: flex-start;
+}
+
+.callout svg {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.callout strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--color-accent-dark);
+}
+
+.callout p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.callout-practice {
+  background: var(--color-bg-warm);
+  border: 1px solid var(--color-border);
+  color: var(--color-accent);
+}
+
+.callout-practice svg {
+  color: var(--color-accent);
+}
+
+.callout-toddle {
+  background: var(--color-primary-light);
+  border: 1px solid rgba(242, 179, 52, 0.4);
+  color: var(--color-accent-dark);
+}
+
+.callout-toddle svg {
+  color: var(--color-primary-dark);
+}
+
+.lesson-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border);
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .lesson-page {
+    flex-direction: column;
+  }
+}
