@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { TeacherProvider } from './hooks/useTeacher';
 import Welcome from './pages/Welcome';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
@@ -10,7 +11,8 @@ const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || undefined;
 
 export default function App() {
   return (
-    <BrowserRouter basename={basename}>
+    <TeacherProvider>
+      <BrowserRouter basename={basename}>
       <Routes>
         <Route path="/" element={<Welcome />} />
         <Route element={<Layout />}>
@@ -21,6 +23,7 @@ export default function App() {
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+    </TeacherProvider>
   );
 }

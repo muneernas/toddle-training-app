@@ -1,9 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, createElement } from 'react';
 import {
   doc,
   getDoc,
   setDoc,
-  updateDoc,
   serverTimestamp,
   collection,
   addDoc,
@@ -20,7 +19,9 @@ const defaultTeacher = {
   overallPercent: 0,
 };
 
-export function useTeacher() {
+const TeacherContext = createContext(null);
+
+export function TeacherProvider({ children }) {
   const [teacherId] = useState(getOrCreateTeacherId);
   const [teacher, setTeacher] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -74,7 +75,17 @@ export function useTeacher() {
   };
 
   const updateTeacher = async (updates) => {
-    const merged = { ...teacher, ...updates };
+    let base = teacher || {};
+
+    if (isFirebaseConfigured) {
+      const ref = doc(db, 'teachers', teacherId);
+      const snap = await getDoc(ref);
+      if (snap.exists()) {
+        base = { ...snap.data(), ...base };
+      }
+    }
+
+    const merged = { ...base, ...updates };
     const overallPercent = calculateOverallPercent(merged);
     const payload = { ...merged, overallPercent, lastActive: new Date().toISOString() };
 
@@ -85,7 +96,19 @@ export function useTeacher() {
     }
 
     const ref = doc(db, 'teachers', teacherId);
-    await updateDoc(ref, { ...updates, overallPercent, lastActive: serverTimestamp() });
+    await setDoc(
+      ref,
+      {
+        quizAttempts: payload.quizAttempts ?? 0,
+        quizBestScore: payload.quizBestScore ?? 0,
+        lessonsCompleted: payload.lessonsCompleted ?? [],
+        name: payload.name,
+        department: payload.department,
+        overallPercent,
+        lastActive: serverTimestamp(),
+      },
+      { merge: true },
+    );
     setTeacher({ id: teacherId, ...payload });
   };
 
@@ -96,18 +119,23 @@ export function useTeacher() {
   };
 
   const saveQuizAttempt = async (score, answers) => {
+    const numericScore = Number(score) || 0;
     const attempts = (teacher?.quizAttempts || 0) + 1;
-    const bestScore = Math.max(teacher?.quizBestScore || 0, score);
-
-    if (isFirebaseConfigured) {
-      await addDoc(collection(db, 'teachers', teacherId, 'quizAttempts'), {
-        score,
-        answers,
-        timestamp: serverTimestamp(),
-      });
-    }
+    const bestScore = Math.max(teacher?.quizBestScore || 0, numericScore);
 
     await updateTeacher({ quizAttempts: attempts, quizBestScore: bestScore });
+
+    if (!isFirebaseConfigured) return;
+
+    try {
+      await addDoc(collection(db, 'teachers', teacherId, 'quizAttempts'), {
+        score: numericScore,
+        answers: JSON.parse(JSON.stringify(answers)),
+        timestamp: serverTimestamp(),
+      });
+    } catch (err) {
+      console.error('Could not log quiz attempt details:', err);
+    }
   };
 
   const registerTeacher = async (name, department) => {
@@ -127,7 +155,7 @@ export function useTeacher() {
     setTeacher(null);
   };
 
-  return {
+  const value = {
     teacherId,
     teacher,
     loading,
@@ -138,5 +166,16 @@ export function useTeacher() {
     updateTeacher,
     logout,
     reload: loadTeacher,
+    saveQuizAttempt,
   };
+
+  return createElement(TeacherContext.Provider, { value }, children);
+}
+
+export function useTeacher() {
+  const context = useContext(TeacherContext);
+  if (!context) {
+    throw new Error('useTeacher must be used within TeacherProvider');
+  }
+  return context;
 }

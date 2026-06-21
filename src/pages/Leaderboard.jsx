@@ -63,6 +63,16 @@ export default function Leaderboard() {
 
       {error && <div className="error-msg">{error}</div>}
 
+      {!isFirebaseConfigured && (
+        <div className="leaderboard-notice card">
+          <p>
+            <strong>Shared leaderboard is not enabled on this site.</strong> Progress is saved only in each
+            person&apos;s browser, so you will not see other teachers here until Firebase is connected in
+            GitHub Actions secrets and the site is rebuilt.
+          </p>
+        </div>
+      )}
+
       {entries.length === 0 ? (
         <div className="card leaderboard-empty">
           <Trophy size={48} />

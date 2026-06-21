@@ -4,6 +4,20 @@
   color: var(--color-accent);
 }
 
+.leaderboard-notice {
+  margin-bottom: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--color-bg-warm);
+  border: 1px solid var(--color-border);
+}
+
+.leaderboard-notice p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--color-accent);
+}
+
 .leaderboard-empty svg {
   color: var(--color-primary);
   margin-bottom: 1rem;

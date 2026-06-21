@@ -75,6 +75,12 @@ export default function Quiz() {
     setSaving(true);
     try {
       await saveQuizAttempt(score, answers);
+    } catch (err) {
+      console.error(err);
+      alert(
+        'Your score could not be saved. If you are on the GitHub site, check that Firebase secrets are set and the site was redeployed. Error: ' +
+          (err.message || 'Unknown error'),
+      );
     } finally {
       setSaving(false);
     }
