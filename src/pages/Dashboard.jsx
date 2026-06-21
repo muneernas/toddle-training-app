@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import {
   BookOpen,
-  ImageUp,
   BrainCircuit,
   Trophy,
   ArrowRight,
@@ -11,7 +10,7 @@ import {
   LayoutDashboard,
 } from 'lucide-react';
 import { useTeacher } from '../hooks/useTeacher';
-import { lessons, TOTAL_LESSONS, TOTAL_UPLOADS } from '../data/lessons';
+import { lessons, TOTAL_LESSONS } from '../data/lessons';
 import { lessonIcons } from '../data/lessonIcons';
 import { calculateOverallPercent, getQuizStatus } from '../utils/progress';
 import ProgressRing from '../components/ProgressRing';
@@ -33,7 +32,6 @@ export default function Dashboard() {
 
   const overall = calculateOverallPercent(teacher);
   const lessonsDone = teacher.lessonsCompleted?.length || 0;
-  const uploadsDone = teacher.uploadsCompleted?.length || 0;
   const quizStatus = getQuizStatus(teacher);
   const nextLesson = lessons.find((l) => !teacher.lessonsCompleted?.includes(l.id));
 
@@ -52,18 +50,11 @@ export default function Dashboard() {
       color: 'gold',
     },
     {
-      to: '/uploads',
-      icon: ImageUp,
-      title: 'Practice uploads',
-      desc: `${uploadsDone} of ${TOTAL_UPLOADS} screenshots`,
-      color: 'warm',
-    },
-    {
       to: '/quiz',
       icon: BrainCircuit,
       title: 'Take the quiz',
       desc: quizLabel,
-      color: 'dark',
+      color: 'warm',
     },
     {
       to: '/leaderboard',
@@ -95,13 +86,6 @@ export default function Dashboard() {
               <div>
                 <span className="stat-num">{lessonsDone}/{TOTAL_LESSONS}</span>
                 <span className="stat-label">Lessons</span>
-              </div>
-            </div>
-            <div className="stat-card">
-              <div className="icon-box icon-box-sm"><ImageUp size={18} /></div>
-              <div>
-                <span className="stat-num">{uploadsDone}/{TOTAL_UPLOADS}</span>
-                <span className="stat-label">Uploads</span>
               </div>
             </div>
             <div className="stat-card">
@@ -167,13 +151,6 @@ export default function Dashboard() {
             <span className={`badge ${quizStatus === 'passed' ? 'badge-done' : 'badge-pending'}`}>
               {quizLabel}
             </span>
-          </div>
-          <div className="status-item">
-            <div className="status-item-left">
-              <ImageUp size={20} />
-              <span>Practice uploads</span>
-            </div>
-            <span className="badge badge-pending">{uploadsDone} of {TOTAL_UPLOADS}</span>
           </div>
           <div className="status-item">
             <div className="status-item-left">

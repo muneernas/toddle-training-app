@@ -6,7 +6,6 @@
 .school-logo--header {
   height: 44px;
   width: auto;
-  border-radius: var(--radius);
 }
 
 .school-logo--welcome {
@@ -14,5 +13,4 @@
   width: 100%;
   height: auto;
   margin: 0 auto 1.25rem;
-  border-radius: var(--radius);
 }

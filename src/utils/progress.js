@@ -1,17 +1,15 @@
-import { TOTAL_LESSONS, TOTAL_UPLOADS, QUIZ_PASS_THRESHOLD } from '../data/lessons';
+import { TOTAL_LESSONS, QUIZ_PASS_THRESHOLD } from '../data/lessons';
 
 export function calculateOverallPercent(teacher) {
   if (!teacher) return 0;
 
   const lessonsDone = (teacher.lessonsCompleted || []).length;
-  const uploadsDone = (teacher.uploadsCompleted || []).length;
   const quizScore = teacher.quizBestScore || 0;
 
-  const lessonPercent = (lessonsDone / TOTAL_LESSONS) * 60;
-  const uploadPercent = (uploadsDone / TOTAL_UPLOADS) * 15;
+  const lessonPercent = (lessonsDone / TOTAL_LESSONS) * 75;
   const quizPercent = (quizScore / 100) * 25;
 
-  return Math.round(lessonPercent + uploadPercent + quizPercent);
+  return Math.round(lessonPercent + quizPercent);
 }
 
 export function getQuizStatus(teacher) {

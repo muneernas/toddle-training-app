@@ -3,7 +3,6 @@ import Welcome from './pages/Welcome';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import Lesson from './pages/Lesson';
-import Uploads from './pages/Uploads';
 import Quiz from './pages/Quiz';
 import Leaderboard from './pages/Leaderboard';
 
@@ -17,7 +16,6 @@ export default function App() {
         <Route element={<Layout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/lessons/:lessonId" element={<Lesson />} />
-          <Route path="/uploads" element={<Uploads />} />
           <Route path="/quiz" element={<Quiz />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
         </Route>

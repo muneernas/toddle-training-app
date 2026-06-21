@@ -1,22 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Building2, ArrowRight, BookOpen, ImageUp, BrainCircuit, Trophy } from 'lucide-react';
+import { User, BookOpen, ArrowRight, MonitorPlay, BrainCircuit, Trophy } from 'lucide-react';
 import { useTeacher } from '../hooks/useTeacher';
+import { mypSubjects } from '../data/mypSubjects';
 import SchoolLogo from '../components/SchoolLogo';
 import './Welcome.css';
 
-const departments = ['MYP', 'PYP', 'DP', 'CP', 'Admin', 'Other'];
-
 const features = [
   { icon: BookOpen, text: '15 interactive lessons' },
-  { icon: ImageUp, text: 'Practice screenshot uploads' },
+  { icon: MonitorPlay, text: 'Screenshots & walkthrough videos' },
   { icon: BrainCircuit, text: 'Multi-style quiz' },
   { icon: Trophy, text: 'Leaderboard rankings' },
 ];
 
 export default function Welcome() {
   const [name, setName] = useState('');
-  const [department, setDepartment] = useState('MYP');
+  const [department, setDepartment] = useState(mypSubjects[0]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const { registerTeacher, isRegistered, loading } = useTeacher();
@@ -88,16 +87,16 @@ export default function Welcome() {
             />
           </div>
           <div className="input-group">
-            <label htmlFor="department">
-              <Building2 size={16} /> Department
+            <label htmlFor="subject">
+              <BookOpen size={16} /> Subject
             </label>
             <select
-              id="department"
+              id="subject"
               value={department}
               onChange={(e) => setDepartment(e.target.value)}
             >
-              {departments.map((d) => (
-                <option key={d} value={d}>{d}</option>
+              {mypSubjects.map((subject) => (
+                <option key={subject} value={subject}>{subject}</option>
               ))}
             </select>
           </div>

@@ -57,6 +57,82 @@
   line-height: 1.7;
 }
 
+.lesson-media {
+  margin: 1.5rem 0;
+}
+
+.lesson-media-heading {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-accent-dark);
+}
+
+.lesson-media-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.lesson-media-item {
+  margin: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-warm);
+}
+
+.lesson-media-item img,
+.lesson-media-item video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.lesson-media-video {
+  grid-column: 1 / -1;
+}
+
+.lesson-media-grid--steps {
+  grid-template-columns: 1fr;
+}
+
+.lesson-media-item--step {
+  display: flex;
+  flex-direction: column;
+}
+
+.lesson-media-step-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.85rem;
+  background: var(--color-primary-light);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.lesson-media-step-num {
+  flex-shrink: 0;
+  background: var(--color-primary-dark);
+  color: var(--color-white);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+}
+
+.lesson-media-step-title {
+  font-size: 0.95rem;
+  color: var(--color-accent-dark);
+}
+
+.lesson-media-item figcaption {
+  padding: 0.75rem 0.85rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--color-text-muted, var(--color-accent));
+  border-top: 1px solid var(--color-border);
+}
+
 .key-points {
   background: var(--color-primary-light);
   border-radius: var(--radius);

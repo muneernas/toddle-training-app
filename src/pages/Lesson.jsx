@@ -6,7 +6,6 @@ import {
   ChevronRight,
   ArrowRight,
   Lightbulb,
-  Camera,
   ExternalLink,
 } from 'lucide-react';
 import { lessons } from '../data/lessons';
@@ -14,6 +13,11 @@ import { lessonIcons } from '../data/lessonIcons';
 import { useTeacher } from '../hooks/useTeacher';
 import LessonSidebar from '../components/LessonSidebar';
 import './Lesson.css';
+
+function mediaUrl(src) {
+  const base = import.meta.env.BASE_URL || '/';
+  return `${base}${src.replace(/^\//, '')}`;
+}
 
 export default function Lesson() {
   const { lessonId } = useParams();
@@ -96,6 +100,39 @@ export default function Lesson() {
           ))}
         </div>
 
+        {lesson.media?.length > 0 && (
+          <div className="lesson-media">
+            <h3 className="lesson-media-heading">
+              {lesson.media.some((item) => item.step) ? 'Step-by-step guide' : 'Screenshots & walkthroughs'}
+            </h3>
+            <div className={`lesson-media-grid${lesson.media.some((item) => item.step) ? ' lesson-media-grid--steps' : ''}`}>
+              {lesson.media.map((item, i) => (
+                <figure key={i} className={`lesson-media-item lesson-media-${item.type}${item.step ? ' lesson-media-item--step' : ''}`}>
+                  {item.step && (
+                    <div className="lesson-media-step-header">
+                      <span className="lesson-media-step-num">Step {item.step}</span>
+                      {item.title && <strong className="lesson-media-step-title">{item.title}</strong>}
+                    </div>
+                  )}
+                  {item.type === 'video' ? (
+                    <video controls preload="metadata" playsInline>
+                      <source src={mediaUrl(item.src)} type="video/mp4" />
+                      Your browser does not support embedded video.
+                    </video>
+                  ) : (
+                    <img src={mediaUrl(item.src)} alt={item.alt || item.title || ''} loading="lazy" />
+                  )}
+                  {(item.description || item.alt) && (
+                    <figcaption>
+                      {item.description || item.alt}
+                    </figcaption>
+                  )}
+                </figure>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="key-points">
           <button
             type="button"
@@ -114,19 +151,6 @@ export default function Lesson() {
             </ul>
           )}
         </div>
-
-        {lesson.uploadTask && (
-          <div className="callout callout-practice">
-            <Camera size={20} />
-            <div>
-              <strong>Practice task</strong>
-              <p>
-                Upload a screenshot of your {lesson.uploadTask.replace(/-/g, ' ')} on the{' '}
-                <Link to="/uploads">Uploads page</Link>.
-              </p>
-            </div>
-          </div>
-        )}
 
         <div className="callout callout-toddle">
           <ExternalLink size={20} />

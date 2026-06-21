@@ -15,7 +15,6 @@ const defaultTeacher = {
   name: '',
   department: '',
   lessonsCompleted: [],
-  uploadsCompleted: [],
   quizBestScore: 0,
   quizAttempts: 0,
   overallPercent: 0,
@@ -96,18 +95,6 @@ export function useTeacher() {
     await updateTeacher({ lessonsCompleted: [...completed, lessonId] });
   };
 
-  const markUploadComplete = async (taskId, uploadMeta) => {
-    const completed = teacher?.uploadsCompleted || [];
-    if (!completed.includes(taskId)) {
-      await updateTeacher({ uploadsCompleted: [...completed, taskId] });
-    }
-
-    if (isFirebaseConfigured && uploadMeta) {
-      const uploadRef = doc(db, 'teachers', teacherId, 'uploads', taskId);
-      await setDoc(uploadRef, { ...uploadMeta, uploadedAt: serverTimestamp() }, { merge: true });
-    }
-  };
-
   const saveQuizAttempt = async (score, answers) => {
     const attempts = (teacher?.quizAttempts || 0) + 1;
     const bestScore = Math.max(teacher?.quizBestScore || 0, score);
@@ -129,10 +116,15 @@ export function useTeacher() {
       name,
       department,
       lessonsCompleted: [],
-      uploadsCompleted: [],
       quizBestScore: 0,
       quizAttempts: 0,
     });
+  };
+
+  const logout = () => {
+    localStorage.removeItem('toddleTeacherData');
+    localStorage.removeItem('toddleTeacherId');
+    setTeacher(null);
   };
 
   return {
@@ -143,8 +135,8 @@ export function useTeacher() {
     isRegistered: !!teacher?.name,
     registerTeacher,
     markLessonComplete,
-    markUploadComplete,
     updateTeacher,
+    logout,
     reload: loadTeacher,
   };
 }
