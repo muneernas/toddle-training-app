@@ -133,6 +133,61 @@
   border-top: 1px solid var(--color-border);
 }
 
+.lesson-table-wrap {
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+
+.lesson-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.lesson-table th,
+.lesson-table td {
+  border: 1px solid var(--color-border);
+  padding: 0.65rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.lesson-table th {
+  background: var(--color-primary-light);
+  color: var(--color-accent-dark);
+  font-weight: 700;
+}
+
+.lesson-table tbody tr:nth-child(even) {
+  background: var(--color-bg-warm);
+}
+
+.callout-lmt {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  background: var(--color-bg-warm);
+  border: 1px solid var(--color-border);
+}
+
+.lmt-email-list {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.lmt-email-list a {
+  color: var(--color-primary-dark);
+}
+
+.lesson-body a,
+.lesson-media-item figcaption a,
+.key-points a {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
 .key-points {
   background: var(--color-primary-light);
   border-radius: var(--radius);

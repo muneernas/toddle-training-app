@@ -53,7 +53,7 @@ export default function Welcome() {
         <h1>Toddle MYP Teacher Training</h1>
         <p className="welcome-desc">
           Your interactive guide to mastering Toddle for the MYP classroom.
-          Learn, practise, and test your knowledge — all in one place.
+          Learn, practice, and test your knowledge — all in one place.
         </p>
 
         <div className="welcome-features">

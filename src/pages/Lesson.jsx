@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
   CheckCircle2,
@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { lessons } from '../data/lessons';
 import { lessonIcons } from '../data/lessonIcons';
+import { assignmentTypes, LMT_EMAILS, TODDLE_WEB_URL } from '../data/toddleLinks';
 import { useTeacher } from '../hooks/useTeacher';
 import LessonSidebar from '../components/LessonSidebar';
 import './Lesson.css';
@@ -17,6 +18,57 @@ import './Lesson.css';
 function mediaUrl(src) {
   const base = import.meta.env.BASE_URL || '/';
   return `${base}${src.replace(/^\//, '')}`;
+}
+
+function renderRichText(text) {
+  const linkPattern = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = linkPattern.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(...renderBoldSegments(text.slice(lastIndex, match.index), `pre-${match.index}`));
+    }
+    parts.push(
+      <a key={`link-${match.index}`} href={match[2]} target="_blank" rel="noopener noreferrer">
+        {match[1]}
+      </a>,
+    );
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(...renderBoldSegments(text.slice(lastIndex), `tail-${lastIndex}`));
+  }
+
+  return parts.length > 0 ? parts : renderBoldSegments(text, 'full');
+}
+
+function renderBoldSegments(text, keyPrefix) {
+  return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={`${keyPrefix}-b-${i}`}>{part.slice(2, -2)}</strong>;
+    }
+    return part ? <span key={`${keyPrefix}-t-${i}`}>{part}</span> : null;
+  });
+}
+
+function LessonVideo({ src, alt }) {
+  const url = mediaUrl(src);
+
+  return (
+    <video
+      key={url}
+      controls
+      preload="metadata"
+      playsInline
+      aria-label={alt || 'Lesson video'}
+    >
+      <source src={url} type="video/mp4" />
+      Your browser does not support embedded video.
+    </video>
+  );
 }
 
 export default function Lesson() {
@@ -29,6 +81,10 @@ export default function Lesson() {
   const lesson = lessons.find((l) => l.id === lessonId);
   const index = lessons.findIndex((l) => l.id === lessonId);
   const LessonIcon = lesson ? lessonIcons[lesson.id] : null;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [lessonId]);
 
   if (loading) {
     return (
@@ -96,9 +152,33 @@ export default function Lesson() {
 
         <div className="lesson-body">
           {lesson.paragraphs.map((p, i) => (
-            <p key={i}>{p}</p>
+            <p key={i}>{renderRichText(p)}</p>
           ))}
         </div>
+
+        {lesson.assignmentTypes && (
+          <div className="lesson-table-wrap">
+            <h3 className="lesson-media-heading">Assignment types</h3>
+            <table className="lesson-table">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Where it is used</th>
+                  <th>Tips</th>
+                </tr>
+              </thead>
+              <tbody>
+                {assignmentTypes.map((row) => (
+                  <tr key={row.type}>
+                    <td><strong>{row.type}</strong></td>
+                    <td>{row.usedFor}</td>
+                    <td>{row.tips}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
 
         {lesson.media?.length > 0 && (
           <div className="lesson-media">
@@ -107,7 +187,10 @@ export default function Lesson() {
             </h3>
             <div className={`lesson-media-grid${lesson.media.some((item) => item.step) ? ' lesson-media-grid--steps' : ''}`}>
               {lesson.media.map((item, i) => (
-                <figure key={i} className={`lesson-media-item lesson-media-${item.type}${item.step ? ' lesson-media-item--step' : ''}`}>
+                <figure
+                  key={`${lesson.id}-${item.src}-${i}`}
+                  className={`lesson-media-item lesson-media-${item.type}${item.step ? ' lesson-media-item--step' : ''}`}
+                >
                   {item.step && (
                     <div className="lesson-media-step-header">
                       <span className="lesson-media-step-num">Step {item.step}</span>
@@ -115,17 +198,12 @@ export default function Lesson() {
                     </div>
                   )}
                   {item.type === 'video' ? (
-                    <video controls preload="metadata" playsInline>
-                      <source src={mediaUrl(item.src)} type="video/mp4" />
-                      Your browser does not support embedded video.
-                    </video>
+                    <LessonVideo src={item.src} alt={item.alt} />
                   ) : (
                     <img src={mediaUrl(item.src)} alt={item.alt || item.title || ''} loading="lazy" />
                   )}
                   {(item.description || item.alt) && (
-                    <figcaption>
-                      {item.description || item.alt}
-                    </figcaption>
+                    <figcaption>{item.description || item.alt}</figcaption>
                   )}
                 </figure>
               ))}
@@ -146,19 +224,42 @@ export default function Lesson() {
           {keyPointsOpen && (
             <ul>
               {lesson.keyPoints.map((point, i) => (
-                <li key={i}>{point}</li>
+                <li key={i}>{renderRichText(point)}</li>
               ))}
             </ul>
           )}
         </div>
 
-        <div className="callout callout-toddle">
-          <ExternalLink size={20} />
-          <div>
-            <strong>Try in Toddle</strong>
-            <p>Use the testing class created for this training session to explore hands-on.</p>
+        {lesson.showTryInToddle && (
+          <div className="callout callout-toddle">
+            <ExternalLink size={20} />
+            <div>
+              <strong>Try in Toddle</strong>
+              <p>
+                Open{' '}
+                <a href={TODDLE_WEB_URL} target="_blank" rel="noopener noreferrer">
+                  Toddle in your browser
+                </a>{' '}
+                and sign in using <strong>Microsoft</strong> with your school account to explore hands-on.
+              </p>
+            </div>
           </div>
-        </div>
+        )}
+
+        {lesson.showLmtContacts && LMT_EMAILS.length > 0 && (
+          <div className="callout callout-lmt">
+            <div>
+              <strong>Learning Management Team</strong>
+              <ul className="lmt-email-list">
+                {LMT_EMAILS.map((email) => (
+                  <li key={email}>
+                    <a href={`mailto:${email}`}>{email}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
 
         <div className="lesson-actions">
           {!isComplete ? (

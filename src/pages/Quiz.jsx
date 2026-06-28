@@ -147,7 +147,7 @@ export default function Quiz() {
           {passed ? (
             <><CheckCircle2 size={18} /> Congratulations! You passed the quiz.</>
           ) : (
-            <><XCircle size={18} /> You need {QUIZ_PASS_THRESHOLD}% to pass. Keep practising!</>
+            <><XCircle size={18} /> You need {QUIZ_PASS_THRESHOLD}% to pass. Keep practicing!</>
           )}
         </p>
         {saving && <p>Saving your score...</p>}

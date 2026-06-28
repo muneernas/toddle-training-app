@@ -2,7 +2,7 @@ export const quizQuestions = [
   {
     id: 'q1',
     type: 'single',
-    question: 'What will Toddle become for MYP Grades 6–10 next year?',
+    question: 'What is Toddle for MYP Grades 6–10 this academic year?',
     options: [
       'A replacement for Edunation report cards only',
       'The main classroom experience platform',
@@ -10,7 +10,7 @@ export const quizQuestions = [
       'A replacement for the school website',
     ],
     correct: 1,
-    explanation: 'Toddle will be the main classroom platform for communication, assignments, materials, and learning activities.',
+    explanation: 'Toddle is the main classroom platform for communication, assignments, materials, and learning activities.',
   },
   {
     id: 'q2',
@@ -30,7 +30,7 @@ export const quizQuestions = [
       'Generating official report cards',
     ],
     correct: [0, 1, 2],
-    explanation: 'Toddle replaces Teams for classroom tasks and materials. Report cards stay on Edunation next year.',
+    explanation: 'Toddle replaces Teams for classroom tasks and materials. Teams is still used for online meetings and live classes. Report cards stay on Edunation this year.',
   },
   {
     id: 'q4',
@@ -55,7 +55,7 @@ export const quizQuestions = [
   {
     id: 'q6',
     type: 'truefalse',
-    question: 'Report cards will remain on Edunation next academic year.',
+    question: 'Report cards remain on Edunation this academic year.',
     correct: true,
     explanation: 'Due to technical limitations, official report cards will still be generated through Edunation.',
   },
@@ -97,12 +97,12 @@ export const quizQuestions = [
     question: 'What can weekly planners be used for? (Select all that apply)',
     options: [
       'Organizing weekly learning plans',
-      'Sharing planning with other teachers',
+      'Sharing planning with families and other teachers',
       'Replacing the gradebook',
-      'Potentially sharing plans with students and parents',
+      'Sharing plans directly with students',
     ],
-    correct: [0, 1, 3],
-    explanation: 'Weekly planners help organize and share planning. They do not replace the gradebook.',
+    correct: [0, 1],
+    explanation: 'Weekly planners help organize and share planning with colleagues and families. They are not shared directly with students.',
   },
   {
     id: 'q11',
@@ -206,7 +206,7 @@ export const quizQuestions = [
     type: 'truefalse',
     question: 'The goal of this training is to learn every Toddle feature in one session.',
     correct: false,
-    explanation: 'The goal is to understand the main features, practise, and build confidence — not learn everything at once.',
+    explanation: 'The goal is to understand the main features, practice, and build confidence — not learn everything at once.',
   },
 ];
 
